@@ -1,4 +1,5 @@
 import { hindShiliguri, solaimanLipi } from "@/fonts";
+import { ReduxProvider } from "@/providers";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 import "../styles/globals.css";
@@ -16,11 +17,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${solaimanLipi.variable} ${solaimanLipi.className} ${hindShiliguri.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <ReduxProvider>
+        <body
+          className={`${solaimanLipi.variable} ${solaimanLipi.className} ${hindShiliguri.variable} antialiased`}
+        >
+          {children}
+        </body>
+      </ReduxProvider>
     </html>
   );
 }
