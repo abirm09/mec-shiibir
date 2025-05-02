@@ -1,4 +1,5 @@
 import { FlatCompat } from "@eslint/eslintrc";
+import { globalIgnores } from "eslint/config";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -22,6 +23,7 @@ const eslintConfig = [
       "react/react-in-jsx-scope": "off",
     },
   },
+  globalIgnores(["/src/generated/prisma"]),
 ];
 
 export default eslintConfig;
