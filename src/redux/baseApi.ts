@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { logOut, setAuth } from "./features/auth/authSlice";
 import { RootState } from "./store";
 
-const baseUrl = `${config.base_api_url}/v1`;
+const baseUrl = `${config.base_api_url}`;
 
 const baseQuery = fetchBaseQuery({
   baseUrl,
