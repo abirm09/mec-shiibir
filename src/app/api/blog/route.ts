@@ -42,6 +42,7 @@ export const POST = catchAsync(async (req: Request) => {
     process.cwd(),
     "public",
     "uploads",
+    "blogs",
     `${timestamp}`
   );
   const uploadPath = path.join(folderPath, fileName);
@@ -54,7 +55,7 @@ export const POST = catchAsync(async (req: Request) => {
     const blogData = {
       ...data,
       categories: undefined,
-      thumb: `/uploads/${timestamp}/${fileName}`,
+      thumb: `/uploads/blogs/${timestamp}/${fileName}`,
     };
     const blog = await tx.blog.create({
       data: blogData,
