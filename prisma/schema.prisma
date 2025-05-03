@@ -41,3 +41,43 @@ model User {
   @@index([email, userId])
   @@map("users")
 }
+
+model BlogCategory {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  thumb String?
+
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  blogCategoryRelation BlogCategoryRelation[]
+
+  @@index([name])
+  @@map("blog_categories")
+}
+
+model Blog {
+  id    String @id @default(cuid())
+  title String
+  slug  String @unique
+  body  String @db.LongText
+  thumb String
+
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  blogCategoryRelation BlogCategoryRelation[]
+
+  @@index([slug])
+  @@map("blogs")
+}
+
+model BlogCategoryRelation {
+  blogId     String
+  categoryId String
+  assignedAt DateTime @default(now())
+
+  blog     Blog         @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  category BlogCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([blogId, categoryId])
+  @@map("blog_category_relations")
+}

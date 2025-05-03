@@ -7,6 +7,8 @@ const catchAsync = (RequestHandler: any) => async (req: Request) => {
   try {
     return await RequestHandler(req);
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
     if (error instanceof ZodError) {
       return ErrorResponse(
         400,

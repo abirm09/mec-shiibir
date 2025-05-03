@@ -10,7 +10,7 @@ const hindShiliguri = Hind_Siliguri({
 const solaimanLipi = localFont({
   src: [
     {
-      path: "../../public/fonts/SolaimanLipi.woff2",
+      path: "./fontfiles/SolaimanLipi.woff2",
       weight: "400",
       style: "normal",
     },
