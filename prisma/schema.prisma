@@ -38,6 +38,8 @@ model User {
   updatedAt           DateTime          @updatedAt
   sessionTokenId      String?
 
+  photoGalleries PhotoGallery[]
+
   @@index([email, userId])
   @@map("users")
 }
@@ -80,4 +82,18 @@ model BlogCategoryRelation {
 
   @@id([blogId, categoryId])
   @@map("blog_category_relations")
+}
+
+model PhotoGallery {
+  id              String @id @default(cuid())
+  title           String
+  image           String
+  createdByUserId String
+
+  createdBy User     @relation(fields: [createdByUserId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdByUserId])
+  @@map("photo_galleries")
 }

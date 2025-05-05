@@ -28,7 +28,7 @@ export const POST = catchAsync(async (req: Request) => {
   if (!matchPassword) throw new ApiError(400, "Invalid password!");
   const tokenId = createId();
   const jwtPayload = {
-    userId: findUser.userId,
+    userId: findUser.id,
     role: findUser.role,
     tokenId,
   };
@@ -59,4 +59,4 @@ export const POST = catchAsync(async (req: Request) => {
   });
 
   return SuccessResponse(200, "Login successfully!", { token: accessToken });
-});
+}, {});
