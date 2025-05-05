@@ -39,6 +39,7 @@ model User {
   sessionTokenId      String?
 
   photoGalleries PhotoGallery[]
+  videoGalleries VideoGallery[]
 
   @@index([email, userId])
   @@map("users")
@@ -96,4 +97,19 @@ model PhotoGallery {
 
   @@index([createdByUserId])
   @@map("photo_galleries")
+}
+
+model VideoGallery {
+  id              String @id @default(cuid())
+  title           String
+  ytVideoLink     String @db.LongText
+  ytVideoId       String // Id from youtube to get the thumbnail 
+  createdByUserId String
+
+  createdBy User     @relation(fields: [createdByUserId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdByUserId])
+  @@map("video_galleries")
 }
