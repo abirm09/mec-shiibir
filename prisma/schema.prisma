@@ -38,8 +38,9 @@ model User {
   updatedAt           DateTime          @updatedAt
   sessionTokenId      String?
 
-  photoGalleries PhotoGallery[]
-  videoGalleries VideoGallery[]
+  photoGalleries     PhotoGallery[]
+  videoGalleries     VideoGallery[]
+  mediaPublishedNews MediaPublishedNews[]
 
   @@index([email, userId])
   @@map("users")
@@ -112,4 +113,20 @@ model VideoGallery {
 
   @@index([createdByUserId])
   @@map("video_galleries")
+}
+
+model MediaPublishedNews {
+  id              String @id @default(cuid())
+  title           String
+  thumb           String
+  url             String @db.LongText
+  origin          String
+  createdByUserId String
+
+  createdBy User     @relation(fields: [createdByUserId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdByUserId])
+  @@map("media_published_newses")
 }
