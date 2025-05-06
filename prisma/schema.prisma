@@ -38,9 +38,10 @@ model User {
   updatedAt           DateTime          @updatedAt
   sessionTokenId      String?
 
-  photoGalleries     PhotoGallery[]
-  videoGalleries     VideoGallery[]
-  mediaPublishedNews MediaPublishedNews[]
+  photoGalleries          PhotoGallery[]
+  videoGalleries          VideoGallery[]
+  mediaPublishedNews      MediaPublishedNews[]
+  scholarshipApplications ScholarshipApplication[]
 
   @@index([email, userId])
   @@map("users")
@@ -129,4 +130,61 @@ model MediaPublishedNews {
 
   @@index([createdByUserId])
   @@map("media_published_newses")
+}
+
+// Scholarship application schemas
+
+model ScholarshipApplicationDepartment {
+  id                      Int                      @id @default(autoincrement())
+  name                    String                   @unique
+  scholarshipApplications ScholarshipApplication[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("scholarship_application_departments")
+}
+
+model ScholarshipApplicationHall {
+  id                      Int                      @id @default(autoincrement())
+  name                    String                   @unique
+  scholarshipApplications ScholarshipApplication[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("scholarship_application_halls")
+}
+
+enum ScholarshipApplicationStatus {
+  pending
+  approved
+}
+
+model ScholarshipApplication {
+  id                 String                       @id @default(cuid())
+  requestId          String                       @unique
+  name               String
+  applicationSubject String
+  session            String
+  registrationNumber String
+  mobileNumber       String
+  reference1         String?
+  reference2         String?
+  problemDetails     String                       @db.LongText
+  approvedByUserId   String?
+  status             ScholarshipApplicationStatus @default(pending)
+
+  departmentId Int
+  department   ScholarshipApplicationDepartment @relation(fields: [departmentId], references: [id])
+
+  hallId Int
+  hall   ScholarshipApplicationHall @relation(fields: [hallId], references: [id])
+
+  approvedByUser User?    @relation(fields: [approvedByUserId], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([requestId])
+  @@map("scholarship_applications")
 }
