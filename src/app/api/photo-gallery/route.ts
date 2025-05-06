@@ -1,7 +1,8 @@
 import { PrismaClient } from "@/generated/prisma";
 import { ApiError, catchAsync, SuccessResponse } from "@/lib";
+import { paginationHelper } from "@/lib/paginationHelper/paginationHelper";
 import { TAccessTokenPayload } from "@/types";
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir, unlink, writeFile } from "fs/promises";
 import _ from "lodash";
 import path from "path";
 import { z } from "zod";
@@ -51,4 +52,71 @@ export const POST = catchAsync(
     return SuccessResponse(200, "Photo gallery created successfully!");
   },
   { checkAuth: true }
+);
+
+export const GET = catchAsync(
+  async (req: Request) => {
+    const { page, limit, skip } = paginationHelper(req.url);
+
+    const result = await prisma.photoGallery.findMany({
+      orderBy: { createdAt: "desc" },
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            fullName: true,
+          },
+        },
+      },
+      skip,
+      take: limit,
+    });
+
+    const count = await prisma.photoGallery.count();
+
+    return SuccessResponse(
+      200,
+      "Photo gallery retrieved successfully!",
+      { photoGallery: result },
+      undefined,
+      { page, limit, total: count }
+    );
+  },
+  { checkAuth: false }
+);
+
+export const DELETE = catchAsync(
+  async (req: Request) => {
+    const body = await req.json();
+
+    const { id } = z
+      .object({
+        id: z.string({ required_error: "Id is required!" }),
+      })
+      .parse(body);
+
+    const existingImage = await prisma.photoGallery.findUnique({
+      where: { id },
+    });
+    if (!existingImage) throw new ApiError(400, "No image found!");
+
+    if (existingImage.image) {
+      const oldThumbPath = path.join(
+        process.cwd(),
+        "public",
+        existingImage.image
+      );
+      try {
+        await unlink(oldThumbPath);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.warn("Failed to delete old thumb:", err); // Log but don't throw
+      }
+    }
+
+    await prisma.photoGallery.delete({ where: { id } });
+
+    return SuccessResponse(200, "Media published news deleted successfully!");
+  },
+  { checkAuth: false }
 );
