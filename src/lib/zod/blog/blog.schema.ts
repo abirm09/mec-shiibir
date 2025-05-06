@@ -7,3 +7,11 @@ export const blogSchema = z.object({
   thumb: z.string().optional(), // This field is required. The validation is handling from the service logic
   categories: z.string({ required_error: "Categories is required" }),
 });
+
+export const updateBlogSchema = z.object({
+  title: z.string().optional(),
+  slug: z.string().optional(),
+  body: z.string().optional(),
+  thumb: z.string().optional(),
+  categories: z.string().optional(),
+});

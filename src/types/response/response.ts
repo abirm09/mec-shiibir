@@ -6,10 +6,13 @@ type TErrorResponse = {
   errorMessages?: TErrorMessage[];
 };
 
+type TMeta = { page: number; limit: number; total: number };
+
 type TSuccessResponse = {
   success: true;
   message: string;
   data?: Record<string, unknown>;
+  meta?: TMeta;
 };
 
-export type { TErrorMessage, TErrorResponse, TSuccessResponse };
+export type { TErrorMessage, TErrorResponse, TMeta, TSuccessResponse };

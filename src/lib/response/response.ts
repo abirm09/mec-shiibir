@@ -1,4 +1,9 @@
-import { TErrorMessage, TErrorResponse, TSuccessResponse } from "@/types";
+import {
+  TErrorMessage,
+  TErrorResponse,
+  TMeta,
+  TSuccessResponse,
+} from "@/types";
 
 const ErrorResponse = (
   status: number,
@@ -22,11 +27,13 @@ const SuccessResponse = (
   message: string = "Operation successful!",
   data?: Record<string, unknown>,
   // eslint-disable-next-line no-undef
-  headers?: ResponseInit["headers"]
+  headers?: ResponseInit["headers"],
+  meta?: TMeta
 ) => {
   const responseData: TSuccessResponse = {
     success: true,
     message,
+    meta,
     data,
   };
 
