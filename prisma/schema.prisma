@@ -159,6 +159,7 @@ model ScholarshipApplicationHall {
 enum ScholarshipApplicationStatus {
   pending
   approved
+  rejected
 }
 
 model ScholarshipApplication {

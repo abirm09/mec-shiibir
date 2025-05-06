@@ -9,7 +9,7 @@ export const POST = catchAsync(
     const body = await req.json();
     const data = z.string().array().parse(body);
 
-    await prisma.scholarshipApplicationDepartment.createMany({
+    await prisma.scholarshipApplicationHall.createMany({
       data: data.map((item) => ({ name: item })),
     });
 
@@ -19,4 +19,17 @@ export const POST = catchAsync(
     );
   },
   { checkAuth: true, superAdminRestricted: true }
+);
+
+export const GET = catchAsync(
+  async () => {
+    const result = await prisma.scholarshipApplicationHall.findMany();
+
+    return SuccessResponse(
+      200,
+      "Scholarship application hall created successfully!",
+      { halls: result }
+    );
+  },
+  { checkAuth: false }
 );

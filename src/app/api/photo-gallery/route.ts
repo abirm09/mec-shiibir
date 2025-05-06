@@ -118,5 +118,5 @@ export const DELETE = catchAsync(
 
     return SuccessResponse(200, "Media published news deleted successfully!");
   },
-  { checkAuth: false }
+  { checkAuth: true }
 );
