@@ -50,7 +50,7 @@ const catchAsync =
         if (user.status === "banned")
           throw new ApiError(403, "You have been banned!");
         if (user.status === "deleted")
-          throw new ApiError(403, "No your found!");
+          throw new ApiError(403, "No user found!");
 
         if (superAdminRestricted)
           if (user.role !== "superAdmin")
