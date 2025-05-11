@@ -9,7 +9,7 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { LayoutDashboard } from "lucide-react";
+import { Rss } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -25,9 +25,9 @@ const DashboardSidebar = () => {
     }[];
   }[] = [
     {
-      name: "Metrics",
-      path: "/dashboard",
-      icon: <LayoutDashboard />,
+      name: "Blog",
+      path: "/dashboard/blogs",
+      icon: <Rss />,
     },
   ];
 
@@ -38,7 +38,7 @@ const DashboardSidebar = () => {
           MEC Shibir
         </Link>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="font-poppins">
         <SidebarGroup>
           {applicationLinks.map((item, index) => {
             return (

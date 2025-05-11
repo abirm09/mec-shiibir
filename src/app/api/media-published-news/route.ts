@@ -2,9 +2,7 @@ import { PrismaClient } from "@/generated/prisma";
 import { ApiError, catchAsync, SuccessResponse } from "@/lib";
 import { paginationHelper } from "@/lib/paginationHelper/paginationHelper";
 import { TAccessTokenPayload } from "@/types";
-import { mkdir, unlink, writeFile } from "fs/promises";
 import _ from "lodash";
-import path from "path";
 import { z } from "zod";
 import { mediaPublishedNews } from "../../../lib/zod/mediaPublishedNews/mediaPublishedNews.schema";
 
@@ -12,6 +10,8 @@ const prisma = new PrismaClient();
 
 export const POST = catchAsync(
   async (req: Request) => {
+    const { mkdir, writeFile } = await import("fs/promises"); // ✅ dynamic import
+    const path = await import("path"); // ✅ dynamic import
     const user = _.get(req, "user") as unknown as TAccessTokenPayload;
 
     const formData = await req.formData();
@@ -90,6 +90,8 @@ export const GET = catchAsync(
 );
 export const DELETE = catchAsync(
   async (req: Request) => {
+    const { unlink } = await import("fs/promises"); // ✅ dynamic import
+    const path = await import("path"); // ✅ dynamic import
     const body = await req.json();
 
     const { id } = z

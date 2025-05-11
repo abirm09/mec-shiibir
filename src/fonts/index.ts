@@ -1,4 +1,4 @@
-import { Hind_Siliguri } from "next/font/google";
+import { Hind_Siliguri, Poppins } from "next/font/google";
 import localFont from "next/font/local";
 
 const hindShiliguri = Hind_Siliguri({
@@ -20,4 +20,10 @@ const solaimanLipi = localFont({
   fallback: ["sans-serif"],
 });
 
-export { hindShiliguri, solaimanLipi };
+const poppins = Poppins({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+  variable: "--font-poppins",
+});
+
+export { hindShiliguri, poppins, solaimanLipi };

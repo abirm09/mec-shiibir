@@ -1,6 +1,5 @@
 import { SidebarProvider } from "@/components/ui";
-import DashboardSidebar from "@/features/dashboard/DashboardSideBar";
-import DashboardTopHeader from "@/features/dashboard/DashboardTopHeader";
+import { DashboardSideBar, DashboardTopHeader } from "@/features/dashboard";
 import { ReactNode } from "react";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
@@ -8,7 +7,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
     <>
       <main className="w-full">
         <SidebarProvider>
-          <DashboardSidebar />
+          <DashboardSideBar />
           <div className="w-full bg-gray-50">
             <DashboardTopHeader />
             <div className="px-5 w-full mt-5">{children}</div>

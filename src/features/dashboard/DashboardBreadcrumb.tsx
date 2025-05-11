@@ -13,7 +13,7 @@ import { Fragment } from "react";
 const DashboardBreadcrumb = () => {
   const pathNames = usePathname().split("/").filter(Boolean);
   return (
-    <Breadcrumb>
+    <Breadcrumb className="font-poppins">
       <BreadcrumbList>
         <BreadcrumbItem>
           <Link href="/">Home</Link>

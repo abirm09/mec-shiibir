@@ -2,13 +2,13 @@ import { PrismaClient } from "@/generated/prisma";
 import { ApiError, catchAsync, slugify, SuccessResponse } from "@/lib";
 import { paginationHelper } from "@/lib/paginationHelper/paginationHelper";
 import { blogSchema, updateBlogSchema } from "@/lib/zod";
-import { mkdir, unlink, writeFile } from "fs/promises";
-import path from "path";
 
 const prisma = new PrismaClient();
 
 export const POST = catchAsync(
   async (req: Request) => {
+    const { mkdir, writeFile } = await import("fs/promises"); // ✅ dynamic import
+    const path = await import("path"); // ✅ dynamic import
     const formData = await req.formData();
 
     const title = formData.get("title") as string;
@@ -122,6 +122,8 @@ export const GET = catchAsync(
 
 export const PUT = catchAsync(
   async (req: Request) => {
+    const { mkdir, writeFile, unlink } = await import("fs/promises"); // ✅ dynamic import
+    const path = await import("path"); // ✅ dynamic import
     const formData = await req.formData();
 
     const id = formData.get("id") as string;
@@ -220,6 +222,8 @@ export const PUT = catchAsync(
 
 export const DELETE = catchAsync(
   async (req: Request) => {
+    const { unlink } = await import("fs/promises"); // ✅ dynamic import
+    const path = await import("path"); // ✅ dynamic import
     const body = await req.json();
     const existingBlog = await prisma.blog.findUnique({
       where: { id: body.id },

@@ -35,17 +35,17 @@ const baseQueryWithRefreshToken: BaseQueryFn = async (
       credentials: "include",
     });
     const data = await res.json();
-    const token = data.data?.token;
+    const token = data.data?.accessToken;
     // Check if we received a new access token
     if (token) {
-      const user = jwtDecode(data.data?.token) as TAuthUser;
+      const user = jwtDecode(token) as TAuthUser;
 
       // Ensure user is not null before dispatching setUser
       if (user) {
         api.dispatch(
           setAuth({
             user: user,
-            token: data.data.token,
+            token: token,
             isLoading: false,
           })
         );
@@ -64,7 +64,7 @@ const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
   endpoints: () => ({}),
-  tagTypes: [],
+  tagTypes: ["blog", "blogCategory"],
 });
 
 export default baseApi;
